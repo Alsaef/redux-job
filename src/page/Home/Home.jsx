@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 const Home = () => {
     const {data:jobs,isLoading,isError}=useGetJobsQuery(null,{pollingInterval:100})
     
-    console.log(jobs);
+    
     if (isLoading) {
       return(
         <Box sx={{ display: 'flex' }}>

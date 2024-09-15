@@ -6,7 +6,8 @@ const jobApi=apiSlice.injectEndpoints({
       getJobs:builder.query({
         query:()=>({
             url:'/api/v1/job'
-        })
+        }),
+        providesTags:['job']
       })
     })
 })

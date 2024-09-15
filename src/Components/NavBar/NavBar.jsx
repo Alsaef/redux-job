@@ -13,7 +13,10 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { Link } from 'react-router-dom';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/firebase.config';
+import { logout } from '../../feature/auth/authSlice';
 const pages = [
     {
         path:'/',
@@ -28,12 +31,15 @@ const pages = [
         route:'Login'
     }
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
 const NavBar = () => {
+  const {user:{email,name,photo}}=useSelector((state)=>state.auth)
+  const dispatch=useDispatch()
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-  
+   console.log('email',email);
+   console.log('name',name);
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
     };
@@ -48,6 +54,12 @@ const NavBar = () => {
     const handleCloseUserMenu = () => {
       setAnchorElUser(null);
     };
+    const handelButton=()=>{
+      signOut(auth).then(()=>{
+         dispatch(logout())
+         alert('logout')
+      })
+    }
     return (
         <div>
             <AppBar position="static">
@@ -143,7 +155,7 @@ const NavBar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar alt="Remy Sharp" src={photo} />
               </IconButton>
             </Tooltip>
             <Menu
@@ -164,7 +176,7 @@ const NavBar = () => {
             >
               {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{setting}</Typography>
+                  <Typography sx={{ textAlign: 'center' }}><Button onClick={handelButton}>{setting}</Button></Typography>
                 </MenuItem>
               ))}
             </Menu>
