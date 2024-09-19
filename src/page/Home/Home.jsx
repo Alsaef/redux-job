@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { useGetJobsQuery } from '../../feature/jobApi/jobApi';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const {data:jobs,isLoading,isError}=useGetJobsQuery(null,{pollingInterval:100})
@@ -38,8 +39,7 @@ const Home = () => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+      <Link to={`/see-job/${job._id}`}><Button size="small">See Job</Button></Link>
       </CardActions>
     </Card>
     ))
